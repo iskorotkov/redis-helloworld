@@ -33,11 +33,11 @@ namespace Fibonacci
         private static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
             services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect("localhost"));
-            services.AddSingleton<IFibonacciCache, RedisFibonacciCache>(provider =>
+            services.AddSingleton<IFibonacciCache, RedisCache>(provider =>
             {
                 var database = provider.GetRequiredService<IConnectionMultiplexer>().GetDatabase();
                 const string cacheKey = "fibonacci";
-                return new RedisFibonacciCache(database, cacheKey);
+                return new RedisCache(database, cacheKey);
             });
             services.AddTransient<FibonacciSolver>();
 

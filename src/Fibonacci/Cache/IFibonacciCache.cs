@@ -4,5 +4,6 @@
     {
         void Save(int index, ulong value);
         (bool Exists, ulong Value) Retrieve(int index);
+        void Reset();
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Fibonacci.Cache
 {
-    public class RedisFibonacciCache : IFibonacciCache
+    public class RedisCache : IFibonacciCache
     {
         private readonly IDatabase _db;
         private readonly string _cacheKey;
 
-        public RedisFibonacciCache(IDatabase db, string cacheKey)
+        public RedisCache(IDatabase db, string cacheKey)
         {
             _db = db;
             _cacheKey = cacheKey;
@@ -26,6 +26,11 @@ namespace Fibonacci.Cache
                 true => (true, ulong.Parse(redisValue)),
                 false => (false, 0)
             };
+        }
+
+        public void Reset()
+        {
+            _db.KeyDelete(_cacheKey);
         }
     }
 }

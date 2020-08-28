@@ -17,5 +17,10 @@ namespace Fibonacci.Tests.Solver
             var exists = _cache.TryGetValue(index, out var value);
             return (exists, value);
         }
+
+        public void Reset()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
