@@ -1,4 +1,6 @@
 ﻿using System;
+using Fibonacci.Cache;
+using Fibonacci.Solver;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 
@@ -31,7 +33,14 @@ namespace Fibonacci
         private static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
             services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect("localhost"));
+            services.AddSingleton<IFibonacciCache, RedisFibonacciCache>(provider =>
+            {
+                var database = provider.GetRequiredService<IConnectionMultiplexer>().GetDatabase();
+                const string cacheKey = "fibonacci";
+                return new RedisFibonacciCache(database, cacheKey);
+            });
             services.AddTransient<FibonacciSolver>();
+
             return services;
         }
     }

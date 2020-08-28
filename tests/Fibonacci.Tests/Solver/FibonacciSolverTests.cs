@@ -1,41 +1,41 @@
+using Fibonacci.Solver;
 using Shouldly;
-using StackExchange.Redis;
 using Xunit;
 
-namespace Fibonacci.Tests
+namespace Fibonacci.Tests.Solver
 {
     public class FibonacciSolverTests
     {
-        private readonly FibonacciSolver _solver;
-
-        public FibonacciSolverTests()
+        private static FibonacciSolver CreateSolver()
         {
-            var redis = ConnectionMultiplexer.Connect("localhost");
-            _solver = new FibonacciSolver(redis);
+            var cache = new TestFibonacciCache();
+            return new FibonacciSolver(cache);
         }
 
         [Fact]
         public void NegativeIndexesShouldReturnZero()
         {
-            _solver.At(-1).ShouldBe(0ul);
-            _solver.At(-2).ShouldBe(0ul);
-            _solver.At(-100).ShouldBe(0ul);
+            var solver = CreateSolver();
+            solver.At(-1).ShouldBe(0ul);
+            solver.At(-2).ShouldBe(0ul);
+            solver.At(-100).ShouldBe(0ul);
         }
 
         [Fact]
         public void ZeroIndexShouldReturnZero()
         {
-            _solver.At(0).ShouldBe(0ul);
+            CreateSolver().At(0).ShouldBe(0ul);
         }
 
         [Fact]
         public void PositiveIndexesShouldReturnFibonacciNumbers()
         {
+            var solver = CreateSolver();
             var x = 0ul;
             var y = 1ul;
             for (var i = 1; i <= 1000; i++)
             {
-                _solver.At(i).ShouldBe(y);
+                solver.At(i).ShouldBe(y);
 
                 var sum = x + y;
                 x = y;
