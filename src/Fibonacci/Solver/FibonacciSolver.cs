@@ -1,4 +1,5 @@
-﻿using Fibonacci.Cache;
+﻿using System.Numerics;
+using Fibonacci.Cache;
 
 namespace Fibonacci.Solver
 {
@@ -11,7 +12,7 @@ namespace Fibonacci.Solver
             _cache = cache;
         }
 
-        public ulong At(int index)
+        public BigInteger At(int index)
         {
             if (index <= 0)
             {
@@ -30,7 +31,7 @@ namespace Fibonacci.Solver
             };
         }
 
-        private ulong Calculate(int index)
+        private BigInteger Calculate(int index)
         {
             var value = At(index - 2) + At(index - 1);
             _cache.Save(index, value);

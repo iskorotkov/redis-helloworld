@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using System.Numerics;
+using StackExchange.Redis;
 
 namespace Fibonacci.Cache
 {
@@ -13,12 +14,12 @@ namespace Fibonacci.Cache
             _cacheKey = cacheKey;
         }
 
-        public void Save(int index, ulong value)
+        public void Save(int index, BigInteger value)
         {
-            _db.HashSet(_cacheKey, index, value);
+            _db.HashSet(_cacheKey, index, value.ToString());
         }
 
-        public (bool Exists, ulong Value) Retrieve(int index)
+        public (bool Exists, BigInteger Value) Retrieve(int index)
         {
             var redisValue = _db.HashGet(_cacheKey, index);
             return redisValue.HasValue switch

@@ -1,3 +1,4 @@
+using System.Numerics;
 using Fibonacci.Solver;
 using Shouldly;
 using Xunit;
@@ -31,15 +32,18 @@ namespace Fibonacci.Tests.Solver
         public void PositiveIndexesShouldReturnFibonacciNumbers()
         {
             var solver = CreateSolver();
-            var x = 0ul;
-            var y = 1ul;
+            BigInteger x = 0;
+            BigInteger y = 1;
             for (var i = 1; i <= 1000; i++)
             {
-                solver.At(i).ShouldBe(y);
+                checked
+                {
+                    solver.At(i).ShouldBe(y);
 
-                var sum = x + y;
-                x = y;
-                y = sum;
+                    var sum = x + y;
+                    x = y;
+                    y = sum;
+                }
             }
         }
     }

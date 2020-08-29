@@ -1,9 +1,11 @@
-﻿namespace Fibonacci.Cache
+﻿using System.Numerics;
+
+namespace Fibonacci.Cache
 {
     public interface IFibonacciCache
     {
-        void Save(int index, ulong value);
-        (bool Exists, ulong Value) Retrieve(int index);
+        void Save(int index, BigInteger value);
+        (bool Exists, BigInteger Value) Retrieve(int index);
         void Reset();
     }
 }
